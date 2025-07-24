@@ -16,12 +16,14 @@ def run(domain):
                         full_url = domain.rstrip("/") + path
                         print(f"[cyan][!] Found disallowed path:[/cyan] {full_url}")
                         results.append({
-                                            "title": "robots.txt Disallowed Path",
-                                            "url": full_url,
-                                            "description": "robots.txt file disallows access to a potentially sensitive path.",
-                                            "summary": "Sensitive directories hidden via robots.txt are still accessible and often contain admin, staging, or debug interfaces.",
-                                            "remediation": "Avoid listing sensitive paths in robots.txt; use authentication and access control instead."
-                                            })
+                            "title": "robots.txt Disallowed Path",
+                            "url": full_url,
+                            "description": "robots.txt file disallows access to a potentially sensitive path.",
+                            "summary": "Sensitive directories hidden via robots.txt are still accessible and often contain admin, staging, or debug interfaces.",
+                            "remediation": "Avoid listing sensitive paths in robots.txt; use authentication and access control instead.",
+                            "cwe_id": "CWE-200",
+                            "proof": f"Disallowed path '{path}' found in robots.txt at {url}"
+                        })
     except httpx.RequestError:
         pass
     return results

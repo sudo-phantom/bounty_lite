@@ -13,13 +13,14 @@ def run(domain):
             if r.status_code == 200 and "Index of" in r.text:
                 print(f"[yellow][!] Open Directory Found:[/yellow] {url}")
                 results.append({
-                                "title": "Open Directory",
-                                "url": url,
-                                "description": "Exposed directory listing accessible to unauthenticated users.",
-                                "summary": "An open directory can expose sensitive files or backups that weren't intended to be public.",
-                                "remediation": "Disable directory listing via the web server configuration (e.g., Apache: `Options -Indexes`, Nginx: `autoindex off;`)."
-                                })
-
+                    "title": "Open Directory",
+                    "url": url,
+                    "description": "Exposed directory listing accessible to unauthenticated users.",
+                    "summary": "An open directory can expose sensitive files or backups that weren't intended to be public.",
+                    "remediation": "Disable directory listing via the web server configuration (e.g., Apache: `Options -Indexes`, Nginx: `autoindex off;`).",
+                    "cwe_id": "CWE-548",
+                    "proof": f"Directory listing found at: {url}"
+                })
         except httpx.RequestError:
             pass
     print("[bold green]Open directory check completed.[/bold green]\n")

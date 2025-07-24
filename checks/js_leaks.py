@@ -30,12 +30,14 @@ def run(domain):
                     if matches:
                         print(f"[red][!] {label} leak found in {js_url}[/red]")
                         results.append({
-                                        "title": "Potential JS Leak: API Key",
-                                        "url": js_url,
-                                        "description": "JavaScript file contains patterns resembling API keys or other secrets.",
-                                        "summary": "Leaked credentials in JavaScript can allow unauthorized access to APIs, cloud accounts, or internal services.",
-                                        "remediation": "Never embed secrets in frontend JavaScript. Use server-side environment variables and secure key management instead."
-                                        })
+                            "title": f"Potential JS Leak: {label}",
+                            "url": js_url,
+                            "description": f"JavaScript file contains patterns resembling {label}.",
+                            "summary": f"Leaked credentials in JavaScript can allow unauthorized access to APIs, cloud accounts, or internal services.\nMatches: {matches}",
+                            "remediation": "Never embed secrets in frontend JavaScript. Use server-side environment variables and secure key management instead.",
+                            "cwe_id": "CWE-200",
+                            "proof": f"Pattern '{label}' matched in {js_url}: {matches}"
+                        })
             except httpx.RequestError:
                 pass
     except httpx.RequestError:
