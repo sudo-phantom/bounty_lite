@@ -3,11 +3,11 @@ import re
 import jwt
 from rich import print
 
-COMMON_SECRETS = ["secret", "password", "admin", "123456", "jwtsecret"]
-
-def run(domain):
+def run(domain, secrets=None):
     print("[bold green]Checking for JWT vulnerabilities...[/bold green]")
     results = []
+    if secrets is None:
+        secrets = ["secret", "password", "admin", "123456", "jwtsecret"]
     try:
         r = httpx.get(domain, timeout=5)
         # Look for JWTs in cookies or in the response
@@ -35,7 +35,7 @@ def run(domain):
                         "proof": f"JWT token with alg:none found: {token}"
                     })
                 # Try brute-forcing the secret
-                for secret in COMMON_SECRETS:
+                for secret in secrets:
                     try:
                         decoded = jwt.decode(token, secret, algorithms=[header.get("alg", "HS256")])
                         results.append({
