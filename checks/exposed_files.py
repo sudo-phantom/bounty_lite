@@ -15,9 +15,11 @@ def run(domain):
             if r.status_code == 200 and len(r.text.strip()) > 10:
                 print(f"[red][!] Exposed File Found:[/red] {url}")
                 results.append({
-                                    "title": "exposed files",
-                                    "url": url,
-                                    "description": "Exposed files to unauthenticated users."
+                                "title": "Exposed .env File",
+                                "url": url,
+                                "description": "Environment configuration file is publicly accessible and may contain credentials or secret keys.",
+                                "summary": "Exposed `.env` files can leak database passwords, API keys, and other critical secrets.",
+                                "remediation": "Restrict access to sensitive files via server configuration or `.htaccess`. Never expose `.env` files in production."
                                 })
 
         except httpx.RequestError:

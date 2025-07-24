@@ -13,9 +13,11 @@ def run(domain):
         if acao == "*" or acao == "https://evil.com":
             print(f"[magenta][!] CORS Misconfig Found:[/magenta] {domain} → ACAO: {acao}")
             results.append({
-                                "title": "Cors Misconfiguration",
-                                "url": acao,
-                                "description": "cors misconfiguration identified."
+                            "title": "CORS Misconfiguration",
+                            "url": domain,
+                            "description": "Server responded with overly permissive Access-Control-Allow-Origin.",
+                            "summary": "A wildcard or attacker-controlled CORS origin can allow malicious websites to make authenticated API calls on behalf of users.",
+                            "remediation": "Use a strict CORS policy that whitelists only trusted domains and avoid using `*` for sensitive endpoints."
                             })
     except httpx.RequestError:
         pass

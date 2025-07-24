@@ -19,10 +19,12 @@ def run(domain):
             if TEST_URL in location:
                 print(f"[blue][!] Open Redirect Detected:[/blue] {url}")
                 results.append({
-                    "title": "Open Redirect",
-                    "url": url,
-                    "description": f"Open redirect found with parameter '{param}'."
-                })
+                                "title": "Open Redirect",
+                                "url": url,
+                                "description": "Unvalidated redirect parameter allows attacker to redirect users to arbitrary domains.",
+                                "summary": "Open redirects can be used for phishing attacks or bypassing redirect-based filters and controls.",
+                                "remediation": "Validate redirect parameters against an allowlist or use server-side routing references (not raw URLs)."
+                                })
         except httpx.RequestError:
             pass
     print("[bold green]Open redirect check completed.[/bold green]\n")

@@ -1,3 +1,4 @@
 httpx
 typer[all]
 rich
+beautifulsoup4

@@ -1,5 +1,5 @@
 import typer
-from checks import open_directories, exposed_files, cors, open_redirect
+from checks import open_directories, exposed_files, cors, open_redirect, security_headers, robots_txt, js_leaks
 from utils import report, subdomains
 from rich import print
 from datetime import datetime
@@ -29,7 +29,9 @@ def scan(domain: str, include_subs: bool = True):
         findings += exposed_files.run(target)
         findings += cors.run(target)
         findings += open_redirect.run(target)
-
+        findings += security_headers.run(target)
+        findings += robots_txt.run(target)
+        findings += js_leaks.run(target)    
     report.save_report(base_domain, findings)
 
 if __name__ == "__main__":
