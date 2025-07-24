@@ -2,3 +2,4 @@ httpx
 typer[all]
 rich
 beautifulsoup4
+jwt
