@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+from rich import print
 
 def save_report(domain, findings):
     import os
