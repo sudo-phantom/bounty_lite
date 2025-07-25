@@ -8,19 +8,23 @@ app = typer.Typer(help="Bounty-Lite: Low-hanging fruit bug bounty recon tool.")
 
 @app.command()
 def scan(domain: str, include_subs: bool = True, wordlist: str = typer.Option(None, help="Path to wordlist for JWT secret brute-force")):
-    if not domain.startswith("http"):
-        domain = "https://" + domain
+    # Split domain on newlines and strip whitespace
+    domains = [d.strip() for d in domain.splitlines() if d.strip()]
 
-    base_domain = domain.replace("https://", "").replace("http://", "").split("/")[0]
-    all_targets = [domain]
+    all_targets = []
+    for d in domains:
+        if not d.startswith("http"):
+            d = "https://" + d
+        base_domain = d.replace("https://", "").replace("http://", "").split("/")[0]
+        all_targets.append(d)
 
-    if include_subs:
-        subs = subdomains.get_subdomains(base_domain)
-        all_targets += [f"https://{sub}" for sub in subs]
+        if include_subs:
+            subs = subdomains.get_subdomains(base_domain)
+            all_targets += [f"https://{sub}" for sub in subs]
 
     findings = []
 
-    print(f"[bold cyan]Starting scan on:[/bold cyan] {base_domain}")
+    print(f"[bold cyan]Starting scan on:[/bold cyan] {', '.join([d.replace('https://','').replace('http://','') for d in domains])}")
     print(f"[italic]Total targets: {len(all_targets)}[/italic]\n")
 
     # Load wordlist if provided
